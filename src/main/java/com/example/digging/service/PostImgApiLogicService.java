@@ -209,6 +209,40 @@ public class PostImgApiLogicService implements CrudInterface<PostImgApiRequest, 
 
     }
 
+    public ArrayList<PostImgReadResponse> likesimgread() {
+        User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
+                .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
+
+        Optional<User> optional = userRepository.findById(userInfo.getUserId());
+        List<UserHasPosts> userHasPosts = userHasPostsRepository.findAllByUser_UserId(userInfo.getUserId());
+        int userHasPostsNum = userHasPosts.size();
+
+        ArrayList<PostImg> postImgs = new ArrayList<PostImg>();
+        ArrayList<ArrayList> tags = new ArrayList();
+        for(int i =0; i<userHasPostsNum; i++){
+            if((userHasPosts.get(i).getPosts().getIsImg() == Boolean.TRUE)
+                    && (userHasPosts.get(i).getPosts().getIsLike() == Boolean.TRUE)) {
+                postImgs.add(postImgRepository.findByPostsPostId(userHasPosts.get(i).getPosts().getPostId()));
+                List<PostTag> nowTags = postTagRepository.findAllByPostsPostId(userHasPosts.get(i).getPosts().getPostId());
+                int nowTagsSize = nowTags.size();
+                ArrayList<String> tagStr = new ArrayList<String>();
+                for(int j=0;j<nowTagsSize;j++){
+                    tagStr.add(nowTags.get(j).getTags().getTags());
+                }
+                tags.add(tagStr);
+            }
+        }
+
+
+        return optional.map(user -> allreadres(postImgs, tags)).orElseGet(()->{
+            ArrayList<PostImgReadResponse> errorList = new ArrayList<PostImgReadResponse>();
+            PostImgReadResponse error = PostImgReadResponse.builder().resultCode("Error").build();
+            errorList.add(error);
+            return errorList;
+        });
+
+    }
+
     @Override
     public PostImgApiResponse update(Integer id, PostImgApiRequest request) {
         return null;
