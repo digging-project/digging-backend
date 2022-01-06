@@ -46,4 +46,10 @@ public class PostLinkApiController {
         return postLinkApiLogicService.alllinkread();
     }
 
+    @GetMapping("/likes_link_read")
+    public ResponseEntity<ArrayList<PostLinkReadResponse>> likeslinkread() {
+        log.info("[READ Likes Link]" );
+        return postLinkApiLogicService.likeslinkread();
+    }
+
 }
