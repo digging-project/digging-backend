@@ -14,6 +14,8 @@ import com.example.digging.ifs.CrudInterface;
 import com.example.digging.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
@@ -160,6 +162,16 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
                     return error;
                 });
 
+
+    }
+
+    public PostTextReadResponse textupdate(@RequestParam(name = "postid") Integer postid, @RequestBody PostTextApiRequest request) {
+        User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
+                .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
+
+        Optional<UserHasPosts> optional = userHasPostsRepository.findByUser_UserIdAndPostsPostId(userInfo.getUserId(), postid);
+
+        
 
     }
 

@@ -90,7 +90,7 @@ public class PostImgApiController implements CrudInterface<PostImgApiRequest, Po
         log.info("[READ All Img] : post {}");
         return postImgApiLogicService.likesimgread();
     }
-
+    
     @Override
     public PostImgApiResponse update(Integer id, PostImgApiRequest request) {
         return null;

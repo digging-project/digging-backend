@@ -1,7 +1,9 @@
 package com.example.digging.controller.postsapi;
 
 import com.example.digging.domain.network.Header;
+import com.example.digging.domain.network.UserDto;
 import com.example.digging.domain.network.request.PostTextApiRequest;
+import com.example.digging.domain.network.request.UpdateUserRequest;
 import com.example.digging.domain.network.response.PostLinkReadResponse;
 import com.example.digging.domain.network.response.PostTextApiResponse;
 import com.example.digging.domain.network.response.PostTextReadResponse;
@@ -11,6 +13,7 @@ import com.example.digging.service.PostTextApiLogicService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -37,14 +40,16 @@ public class PostTextApiController implements CrudInterface<PostTextApiRequest, 
     }
 
     @Override
-    public PostTextApiResponse update(Integer id, PostTextApiRequest request) {
-        return null;
-    }
+    public PostTextApiResponse update(Integer id, PostTextApiRequest request) { return null; }
 
     @GetMapping("")
     public PostTextReadResponse textread( @RequestParam(name = "postid") Integer postid) {
-        log.info("[READ Text] post {}",  postid);
         return postTextApiLogicService.textread( postid);
+    }
+
+    @PutMapping("")
+    public PostTextReadResponse textupdate(@RequestParam(name = "postid") Integer postid, @RequestBody PostTextApiRequest request){
+        return postTextApiLogicService.textupdate(postid, request);
     }
 
     @GetMapping("/all_text_read")
