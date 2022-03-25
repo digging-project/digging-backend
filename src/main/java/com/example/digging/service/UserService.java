@@ -97,7 +97,6 @@ public class UserService {
                 .updatedAt(LocalDateTime.now())
                 .uid(uid)
                 .authorities(Collections.singleton(authority))
-                .activated(true)
                 .build();
 
         userRepository.save(user);

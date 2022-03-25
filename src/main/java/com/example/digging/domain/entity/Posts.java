@@ -24,9 +24,7 @@ public class Posts {
     private Boolean isLink;
     private Boolean isLike;
     private LocalDateTime createdAt;
-    private String createdBy;
     private LocalDateTime updatedAt;
-    private String updatedBy;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts", cascade = CascadeType.ALL)
     private List<PostImg> postImgList;

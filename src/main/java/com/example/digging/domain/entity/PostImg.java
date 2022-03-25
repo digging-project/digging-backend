@@ -24,11 +24,6 @@ public class PostImg implements Serializable {
     private Integer imgId;
 
     private String title;
-    private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime updatedAt;
-    private String updatedBy;
-
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "postImg", cascade = CascadeType.ALL)
     private List<Imgs> imgsList;

@@ -21,10 +21,6 @@ public class PostLink {
 
     private String title;
     private String url;
-    private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime updatedAt;
-    private String updatedBy;
 
     @ManyToOne
     private Posts posts;
