@@ -254,7 +254,6 @@ public class UserService {
                             .provider(user.getProvider())
                             .createdAt(user.getCreatedAt())
                             .updatedAt(user.getUpdatedAt())
-                            .activated(user.getActivated())
                             .refreshTokenCreatedAt(refreshToken.getCreatedAt())
                             .refreshTokenUpdatedAt(refreshToken.getUpdatedAt())
                             .build();
@@ -305,7 +304,6 @@ public class UserService {
                             .provider(user.getProvider())
                             .createdAt(user.getCreatedAt())
                             .updatedAt(user.getUpdatedAt())
-                            .activated(user.getActivated())
                             .refreshTokenCreatedAt(refreshTokenRepository.findByUserId(user.getUserId()).get().getCreatedAt())
                             .refreshTokenUpdatedAt(refreshTokenRepository.findByUserId(user.getUserId()).get().getUpdatedAt())
                             .build();
@@ -399,18 +397,15 @@ public class UserService {
                             .setUpdatedAt(LocalDateTime.now())
                     ;
                     if(posts.getIsText()==Boolean.TRUE){
-                        PostText postText = postTextRepository.findByPostsPostId(opt.getPosts().getPostId());
-                        postTextRepository.save(postText.setUpdatedAt(LocalDateTime.now()));
+                        postsRepository.save(posts.setUpdatedAt(LocalDateTime.now()));
                     }
 
                     if(posts.getIsLink()==Boolean.TRUE){
-                        PostLink postLink = postLinkRepository.findByPostsPostId(opt.getPosts().getPostId());
-                        postLinkRepository.save(postLink.setUpdatedAt(LocalDateTime.now()));
+                        postsRepository.save(posts.setUpdatedAt(LocalDateTime.now()));
                     }
 
                     if(posts.getIsImg()==Boolean.TRUE){
-                        PostImg postImg = postImgRepository.findByPostsPostId(opt.getPosts().getPostId());
-                        postImgRepository.save(postImg.setUpdatedAt(LocalDateTime.now()));
+                        postsRepository.save(posts.setUpdatedAt(LocalDateTime.now()));
                     }
                     return posts;
                 })
@@ -468,9 +463,7 @@ public class UserService {
                 .isLink(posts.getIsLink())
                 .isLike(posts.getIsLike())
                 .createdAt(posts.getCreatedAt())
-                .createdBy(posts.getCreatedBy())
                 .updatedAt(posts.getUpdatedAt())
-                .updatedBy(posts.getUpdatedBy())
                 .build();
         String typeStr = null;
         if (postsResponse.getIsText() == Boolean.TRUE) {

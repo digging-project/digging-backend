@@ -58,9 +58,7 @@ public class PostImgApiLogicService implements CrudInterface<PostImgApiRequest, 
                 .isLink(Boolean.FALSE)
                 .isLike(Boolean.FALSE)
                 .createdAt(LocalDateTime.now())
-                .createdBy(userInfo.getUsername())
                 .updatedAt(LocalDateTime.now())
-                .updatedBy(userInfo.getUsername())
                 .build();
         Posts newPosts = postsRepository.save(posts);
 
@@ -99,10 +97,6 @@ public class PostImgApiLogicService implements CrudInterface<PostImgApiRequest, 
         PostImg postImg = PostImg.builder()
                 .posts(newPosts)
                 .title(title)
-                .createdAt(LocalDateTime.now())
-                .createdBy(userInfo.getUsername())
-                .updatedAt(LocalDateTime.now())
-                .updatedBy(userInfo.getUsername())
                 .build();
 
         PostImg newPostImg = postImgRepository.save(postImg);
@@ -258,7 +252,6 @@ public class PostImgApiLogicService implements CrudInterface<PostImgApiRequest, 
         PostImgApiResponse postImgApiResponse = PostImgApiResponse.builder()
                 .resultCode("Success")
                 .type("img")
-                .userName(postImg.getCreatedBy())
                 .postId(postImg.getPosts().getPostId())
                 .imgId(postImg.getImgId())
                 .title(postImg.getTitle())
@@ -279,9 +272,7 @@ public class PostImgApiLogicService implements CrudInterface<PostImgApiRequest, 
                 .imgId(postImg.getImgId())
                 .title(postImg.getTitle())
                 .createdAt(postImg.getPosts().getCreatedAt())
-                .createdBy(postImg.getCreatedBy())
                 .updatedAt(postImg.getPosts().getUpdatedAt())
-                .updatedBy(postImg.getUpdatedBy())
                 .isLike(postImg.getPosts().getIsLike())
                 .tags(tags)
                 .totalImgNum(imgsResponse.size())
@@ -316,9 +307,7 @@ public class PostImgApiLogicService implements CrudInterface<PostImgApiRequest, 
                     .imgId(postImg.get(i).getImgId())
                     .title(postImg.get(i).getTitle())
                     .createdAt(postImg.get(i).getPosts().getCreatedAt())
-                    .createdBy(postImg.get(i).getCreatedBy())
                     .updatedAt(postImg.get(i).getPosts().getUpdatedAt())
-                    .updatedBy(postImg.get(i).getUpdatedBy())
                     .isLike(postImg.get(i).getPosts().getIsLike())
                     .totalImgNum(imgsResponse.size())
                     .tags(tags.get(i))

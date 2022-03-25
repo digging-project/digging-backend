@@ -22,7 +22,6 @@ public class MainPageController {
 
     @GetMapping("/recent")
     public ArrayList<RecentDiggingResponse> recentPostsRead(){
-        log.info("[READ] User Recent Digging");
         return mainPageLogicService.recentPostsRead();
     }
 }

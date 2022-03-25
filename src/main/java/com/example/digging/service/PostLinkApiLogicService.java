@@ -67,9 +67,7 @@ public class PostLinkApiLogicService {
                     .isLink(Boolean.TRUE)
                     .isLike(Boolean.FALSE)
                     .createdAt(LocalDateTime.now())
-                    .createdBy(userInfo.getUsername())
                     .updatedAt(LocalDateTime.now())
-                    .updatedBy(userInfo.getUsername())
                     .build();
             Posts newPosts = postsRepository.save(posts);
 
@@ -109,10 +107,6 @@ public class PostLinkApiLogicService {
                     .posts(newPosts)
                     .title(body.getTitle())
                     .url(body.getUrl())
-                    .createdAt(LocalDateTime.now())
-                    .createdBy(userInfo.getUsername())
-                    .updatedAt(LocalDateTime.now())
-                    .updatedBy(userInfo.getUsername())
                     .build();
             PostLink newPostLink = postLinkRepository.save(postLink);
 
@@ -170,9 +164,7 @@ public class PostLinkApiLogicService {
                 .title(postLink.getTitle())
                 .url(postLink.getUrl())
                 .createdAt(postLink.getPosts().getCreatedAt())
-                .createdBy(postLink.getCreatedBy())
                 .updatedAt(postLink.getPosts().getUpdatedAt())
-                .updatedBy(postLink.getUpdatedBy())
                 .isLike(postLink.getPosts().getIsLike())
                 .tags(tags)
                 .build();
@@ -257,9 +249,7 @@ public class PostLinkApiLogicService {
                     .title(postLink.get(i).getTitle())
                     .url(postLink.get(i).getUrl())
                     .createdAt(postLink.get(i).getPosts().getCreatedAt())
-                    .createdBy(postLink.get(i).getCreatedBy())
                     .updatedAt(postLink.get(i).getPosts().getUpdatedAt())
-                    .updatedBy(postLink.get(i).getUpdatedBy())
                     .isLike(postLink.get(i).getPosts().getIsLike())
                     .tags(tags.get(i))
                     .build();
@@ -280,7 +270,6 @@ public class PostLinkApiLogicService {
         PostLinkApiResponse postLinkApiResponse = PostLinkApiResponse.builder()
                 .resultCode("Success")
                 .type("link")
-                .userName(postLink.getCreatedBy())
                 .postId(postLink.getPosts().getPostId())
                 .linkId(postLink.getLinkId())
                 .title(postLink.getTitle())

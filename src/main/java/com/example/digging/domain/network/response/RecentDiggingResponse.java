@@ -17,18 +17,13 @@ public class RecentDiggingResponse {
     private String resultCode;
     private String type;
     private Integer postId;
-    private Integer linkId;
-    private Integer textId;
-    private Integer imgId;
     private String title;
     private String url;
     private String content;
+    private Integer totalImgNum;
+    private ArrayList<ImgsApiResponse> imgs;
     private LocalDateTime createdAt;
-    private String createdBy;
     private LocalDateTime updatedAt;
     private Boolean isLike;
-    private String updatedBy;
     private ArrayList<String> tags;
-    private ArrayList<ImgsApiResponse> imgs;
-    private Integer totalImgNum;
 }
