@@ -57,7 +57,7 @@ We've improved the paint points we've felt in existing services so that you can 
 
 ### ERD
 
-![diggingERD](https://user-images.githubusercontent.com/65646971/134818766-256f1472-3f11-4a50-aa09-ec0ff50d9bfb.png)
+![220325dbschema](https://user-images.githubusercontent.com/65646971/160132133-ae7539c5-aaa0-4e29-a0bf-67be7dd17910.png)
 
 ## *Addition Commentary*
 ### Issues
