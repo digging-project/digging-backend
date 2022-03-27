@@ -22,7 +22,6 @@ public class Imgs {
     private String imgUrl;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", referencedColumnName = "posts_post_id")
     @JoinColumn(name = "img_id", referencedColumnName = "img_id")
     private PostImg postImg;
 }
