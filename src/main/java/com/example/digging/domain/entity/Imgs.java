@@ -15,7 +15,6 @@ import java.io.Serializable;
 @ToString(exclude = {"postImg"})
 public class Imgs {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

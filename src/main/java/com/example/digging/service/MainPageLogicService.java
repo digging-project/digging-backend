@@ -42,7 +42,7 @@ public class MainPageLogicService {
     @Autowired
     private PostTagRepository postTagRepository;
 
-    public ArrayList<RecentDiggingResponse> recentPostsRead() {
+    /*public ArrayList<RecentDiggingResponse> recentPostsRead() {
         User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
 
@@ -168,15 +168,16 @@ public class MainPageLogicService {
                     return errorList;
         });
     }
-
-    /*public ArrayList<RecentDiggingResponse> recentPostsRead() {
+*/
+    public ArrayList<RecentDiggingResponse> recentPostsRead() {
         User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
 
         Optional<User> optional = userRepository.findById(userInfo.getUserId());
         List<UserHasPosts> userHasPostsList = userHasPostsRepository.findAllByUser_UserId(userInfo.getUserId());
-        List<Posts> postsList = postsRepository.findAllByUserHasPosts_UserId(userInfo.getUserId());
-    }*/
+        List<Posts> postsList = postsRepository.findTop10ByUpdatedAt();
+
+    }
 
     public static LinkedHashMap<Integer, LocalDateTime> sortMapByValue(Map<Integer, LocalDateTime> map) {
         List<Map.Entry<Integer, LocalDateTime>> entries = new LinkedList<>(map.entrySet());

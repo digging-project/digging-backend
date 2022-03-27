@@ -22,7 +22,7 @@ public class PostText {
     private String title;
     private String content;
 
-    @ManyToOne
+    @OneToOne
 //    @JoinColumn(name = "post_id")
     private Posts posts;
 }

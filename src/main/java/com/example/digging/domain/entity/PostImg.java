@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Builder
 @Accessors(chain = true)
-@ToString(exclude = {"imgsList", "posts"})
+@ToString(exclude = {"imgsList"})
 public class PostImg implements Serializable {
 
     @Id
@@ -28,7 +28,7 @@ public class PostImg implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "postImg", cascade = CascadeType.ALL)
     private List<Imgs> imgsList;
 
-    @ManyToOne
+    @OneToOne
     private Posts posts;
 
 }

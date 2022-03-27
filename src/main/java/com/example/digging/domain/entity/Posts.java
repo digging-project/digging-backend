@@ -13,11 +13,15 @@ import java.util.List;
 @Entity
 @Builder
 @Accessors(chain = true)
-@ToString(exclude = {"postLinkList", "postImgList", "postTextList", "userHasPostsList", "postTagList"})
+@ToString(exclude = {"postTagList"})
 public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer postId;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", referencedColumnName="user_id")
+    private User user;
 
     private Boolean isText;
     private Boolean isImg;
@@ -26,17 +30,14 @@ public class Posts {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts", cascade = CascadeType.ALL)
-    private List<PostImg> postImgList;
+    @OneToOne(mappedBy = "posts")
+    private PostImg postImg;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts", cascade = CascadeType.ALL)
-    private List<PostLink> postLinkList;
+    @OneToOne(mappedBy = "posts")
+    private PostLink postLink;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts", cascade = CascadeType.ALL)
-    private List<PostText> postTextList;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts", cascade = CascadeType.ALL)
-    private List<UserHasPosts> userHasPostsList;
+    @OneToOne(mappedBy = "posts")
+    private PostText postText;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts", cascade = CascadeType.ALL)
     private List<PostTag> postTagList;

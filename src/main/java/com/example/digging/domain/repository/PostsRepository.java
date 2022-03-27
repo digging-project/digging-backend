@@ -10,5 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface PostsRepository extends JpaRepository<Posts, Integer> {
-    
+
+    List<Posts> findTop10ByUpdatedAt();
 }

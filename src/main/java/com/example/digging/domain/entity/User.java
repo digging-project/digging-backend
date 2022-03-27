@@ -17,7 +17,7 @@ import java.util.Set;
 @Builder
 @Accessors(chain = true)
 // 익스클루드 고치기
-@ToString(exclude = {"userHasPostsList", "tagsList"})
+@ToString(exclude = {"tagsList"})
 public class User {
 
     @Id
@@ -37,12 +37,11 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserHasPosts> userHasPostsList;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Tags> tagsList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Posts> postsList;
 
     @ManyToMany
     @JoinTable(

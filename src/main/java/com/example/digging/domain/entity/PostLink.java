@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @Accessors(chain = true)
-@ToString(exclude = {"posts"})
 public class PostLink {
 
     @Id
@@ -22,6 +21,6 @@ public class PostLink {
     private String title;
     private String url;
 
-    @ManyToOne
+    @OneToOne
     private Posts posts;
 }
