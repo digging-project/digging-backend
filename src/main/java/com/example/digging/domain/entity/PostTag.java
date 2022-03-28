@@ -18,10 +18,8 @@ public class PostTag {
     private Integer Id;
 
     @ManyToOne
-//    @JoinColumn(name = "post_id")
     private Posts posts;
 
     @ManyToOne
-//    @JoinColumn(name = "tag_id")
     private Tags tags;
 }

@@ -18,7 +18,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findByUsernameStartsWith(String username);
 
-
     Optional<User> findByUid(String uid);
     boolean existsByUid(String uid);
 

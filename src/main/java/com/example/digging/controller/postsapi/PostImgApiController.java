@@ -1,3 +1,4 @@
+/*
 package com.example.digging.controller.postsapi;
 
 import com.example.digging.domain.network.request.PostImgApiRequest;
@@ -101,3 +102,4 @@ public class PostImgApiController implements CrudInterface<PostImgApiRequest, Po
         return null;
     }
 }
+*/

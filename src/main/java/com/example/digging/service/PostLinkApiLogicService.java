@@ -1,3 +1,4 @@
+/*
 package com.example.digging.service;
 
 import com.example.digging.domain.entity.*;
@@ -30,9 +31,6 @@ public class PostLinkApiLogicService {
 
     @Autowired
     private PostsRepository postsRepository;
-
-    @Autowired
-    private UserHasPostsRepository userHasPostsRepository;
 
     @Autowired
     private PostLinkRepository postLinkRepository;
@@ -96,12 +94,6 @@ public class PostLinkApiLogicService {
                     postTagRepository.save(postTag);
                 }
             }
-
-            UserHasPosts userHasPosts = UserHasPosts.builder()
-                    .user(userRepository.getOne(userInfo.getUserId()))
-                    .posts(newPosts)
-                    .build();
-            userHasPostsRepository.save(userHasPosts);
 
             PostLink postLink = PostLink.builder()
                     .posts(newPosts)
@@ -281,3 +273,4 @@ public class PostLinkApiLogicService {
 
     }
 }
+*/

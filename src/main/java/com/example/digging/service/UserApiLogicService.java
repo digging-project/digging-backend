@@ -35,9 +35,6 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     @Autowired
     private PostLinkRepository postLinkRepository;
 
-    @Autowired
-    private UserHasPostsRepository userHasPostsRepository;
-
     @Override
     public UserApiResponse create(UserApiRequest request) {
         UserApiRequest userApiRequest = request;
@@ -137,8 +134,5 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         return userApiResponse;
 
     }
-
-
-
 
 }

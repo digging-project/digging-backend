@@ -1,3 +1,4 @@
+/*
 package com.example.digging.controller.api;
 
 import com.example.digging.domain.network.Header;
@@ -25,3 +26,4 @@ public class MainPageController {
         return mainPageLogicService.recentPostsRead();
     }
 }
+*/

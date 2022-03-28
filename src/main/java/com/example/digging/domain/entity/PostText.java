@@ -23,6 +23,5 @@ public class PostText {
     private String content;
 
     @OneToOne
-//    @JoinColumn(name = "post_id")
     private Posts posts;
 }

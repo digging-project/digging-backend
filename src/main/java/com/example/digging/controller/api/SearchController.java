@@ -19,7 +19,7 @@ import java.util.ArrayList;
 @RequestMapping("/search")
 public class SearchController {
 
-    @Autowired
+/*    @Autowired
     private SearchLogicService searchLogicService;
 
     @GetMapping(value = "/keyword", params = { "keyword" })
@@ -45,5 +45,5 @@ public class SearchController {
     public SearchHeader<ArrayList<RecentDiggingResponse>> searchByTagWithPage(@RequestParam(name = "tag") String tag, @RequestParam(name = "page") Integer page) {
         log.info("[SEARCH by tag] : {}", tag);
         return searchLogicService.searchByTag(tag, page);
-    }
+    }*/
 }

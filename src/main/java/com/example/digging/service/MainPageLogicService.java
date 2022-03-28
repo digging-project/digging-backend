@@ -1,3 +1,4 @@
+/*
 package com.example.digging.service;
 
 import com.example.digging.domain.entity.*;
@@ -42,7 +43,8 @@ public class MainPageLogicService {
     @Autowired
     private PostTagRepository postTagRepository;
 
-    /*public ArrayList<RecentDiggingResponse> recentPostsRead() {
+    */
+/*public ArrayList<RecentDiggingResponse> recentPostsRead() {
         User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
 
@@ -168,7 +170,8 @@ public class MainPageLogicService {
                     return errorList;
         });
     }
-*/
+*//*
+
     public ArrayList<RecentDiggingResponse> recentPostsRead() {
         User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
@@ -191,3 +194,4 @@ public class MainPageLogicService {
     }
 
 }
+*/

@@ -6,7 +6,6 @@ import com.example.digging.domain.network.response.PostLinkReadResponse;
 import com.example.digging.domain.network.response.PostTextApiResponse;
 import com.example.digging.domain.network.response.PostTextReadResponse;
 import com.example.digging.ifs.CrudInterface;
-import com.example.digging.service.PostLinkApiLogicService;
 import com.example.digging.service.PostTextApiLogicService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

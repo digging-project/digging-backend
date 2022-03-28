@@ -30,15 +30,15 @@ public class Posts {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy = "posts")
+    @OneToOne(mappedBy = "posts", cascade = CascadeType.ALL)
     private PostImg postImg;
 
-    @OneToOne(mappedBy = "posts")
+    @OneToOne(mappedBy = "posts", cascade = CascadeType.ALL)
     private PostLink postLink;
 
-    @OneToOne(mappedBy = "posts")
+    @OneToOne(mappedBy = "posts", cascade = CascadeType.ALL)
     private PostText postText;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
     private List<PostTag> postTagList;
 }

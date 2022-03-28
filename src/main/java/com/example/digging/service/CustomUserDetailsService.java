@@ -1,3 +1,4 @@
+/*
 package com.example.digging.service;
 
 import com.example.digging.domain.entity.User;
@@ -48,4 +49,4 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-}
+}*/

@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostImgRepository extends JpaRepository<PostImg, Integer> {
-
-    PostImg findByPostsPostId(Integer postid);
+    // PostImg findByPostsPostId(Integer postid);
 }

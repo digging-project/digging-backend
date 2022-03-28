@@ -1,5 +1,6 @@
 package com.example.digging.adapter;
 
+import io.swagger.annotations.ApiResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -19,6 +20,7 @@ public class SwaggerConfig {
     private String title;
 
     @Bean
+    @ApiResponse(code = 202, message = "delete success")
     public Docket apiV1() {
         version = "User";
         title = "User API " + version;

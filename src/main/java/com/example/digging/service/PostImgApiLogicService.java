@@ -1,3 +1,4 @@
+/*
 package com.example.digging.service;
 
 import com.example.digging.domain.entity.*;
@@ -326,3 +327,4 @@ public class PostImgApiLogicService implements CrudInterface<PostImgApiRequest, 
     }
 
 }
+*/

@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -58,10 +59,6 @@ public class UserService {
 
     @Autowired
     private PostLinkRepository postLinkRepository;
-
-    @Autowired
-    private UserHasPostsRepository userHasPostsRepository;
-
 
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, RefreshTokenRepository refreshTokenRepository, AppleServiceImpl appleService, GoogleServiceImpl googleService) {
@@ -241,8 +238,6 @@ public class UserService {
         RefreshToken refreshToken = refreshTokenRepository.findByUserId(userInfo.get().getUserId())
                 .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
-
-
         return userInfo
                 .map(user -> {
                     UserDto userDto = UserDto.builder()
@@ -313,45 +308,25 @@ public class UserService {
                 .orElseThrow();
     }
 
-    public PostsResponse deletePost(Integer postid) {
+    public ResponseEntity deletePost(Integer postid) {
         User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
+        Posts deletePost = postsRepository.findById(postid)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "post 없음"));
 
-        Optional<UserHasPosts> optional = userHasPostsRepository.findByUser_UserIdAndPostsPostId(userInfo.getUserId(), postid);
-
-        return optional
-                .map(opt -> {
-                    Posts posts = opt.getPosts();
-
-                    List<PostTag> postTagList = posts.getPostTagList();
-                    postsRepository.delete(posts);
-                    userHasPostsRepository.delete(opt);
-
-                    for (int i =0; i<postTagList.size(); i++) {
-                        postTagRepository.delete(postTagList.get(i));
-                        if(postTagList.get(i).getTags().getPostTagList().isEmpty()){
-                            tagsRepository.delete(postTagList.get(i).getTags());
-                        }
-
-                    }
-
-
-                    PostsResponse postsResponse = PostsResponse.builder()
-                            .resultCode("Delete Success")
-                            .build();
-                    return postsResponse;
-
-
-                })
-                .orElseGet(
-                        ()->{
-                            PostsResponse erros = PostsResponse.builder()
-                                    .resultCode("Error : 데이터 없음")
-                                    .build();
-                            return erros;
-                        }
-                );
-
+        if (userInfo.getUserId() != deletePost.getUser().getUserId()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("user id와 post id값 오류");
+        }
+        
+        List<PostTag> postTagList = deletePost.getPostTagList();
+        for (int i =0; i<postTagList.size(); i++) {
+            postTagRepository.delete(postTagList.get(i));
+            if(postTagList.get(i).getTags().getPostTagList().isEmpty()){
+                tagsRepository.delete(postTagList.get(i).getTags());
+            }
+        }
+        postsRepository.delete(deletePost);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("delete 성공");
 
     }
 
@@ -388,28 +363,15 @@ public class UserService {
         User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
 
-        Optional<UserHasPosts> optional = userHasPostsRepository.findByUser_UserIdAndPostsPostId(userInfo.getUserId(), postid);
+        Optional<Posts> optional = postsRepository.findByUser_UserIdAndPostId(userInfo.getUserId(), postid);
 
         return optional
                 .map(opt -> {
-                    Posts posts = opt.getPosts();
-                    posts.setIsLike(!posts.getIsLike())
-                            .setUpdatedAt(LocalDateTime.now())
-                    ;
-                    if(posts.getIsText()==Boolean.TRUE){
-                        postsRepository.save(posts.setUpdatedAt(LocalDateTime.now()));
-                    }
-
-                    if(posts.getIsLink()==Boolean.TRUE){
-                        postsRepository.save(posts.setUpdatedAt(LocalDateTime.now()));
-                    }
-
-                    if(posts.getIsImg()==Boolean.TRUE){
-                        postsRepository.save(posts.setUpdatedAt(LocalDateTime.now()));
-                    }
-                    return posts;
+                    opt.setIsLike(!opt.getIsLike())
+                            .setUpdatedAt(LocalDateTime.now());
+                    postsRepository.save(opt.setUpdatedAt(LocalDateTime.now()));
+                    return opt;
                 })
-                .map(posts -> postsRepository.save(posts))
                 .map(updatePost -> postres(updatePost))
                 .orElseGet(
                         ()->{
@@ -426,13 +388,15 @@ public class UserService {
         User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
 
-        List<UserHasPosts> userHasPostsList = userHasPostsRepository.findAllByUser_UserId(userInfo.getUserId());
-        int postsNum = userHasPostsList.size();
+        List<Posts> postsList = postsRepository.findAllByUser_UserId(userInfo.getUserId());
+        int postsNum = postsList.size();
+
         Integer textNum = 0; Integer imgNum = 0; Integer linkNum = 0;
+
         for(int i=0;i<postsNum;i++){
-            if (userHasPostsList.get(i).getPosts().getIsText() == Boolean.TRUE) {textNum += 1;}
-            if (userHasPostsList.get(i).getPosts().getIsImg() == Boolean.TRUE) {imgNum += 1;}
-            if (userHasPostsList.get(i).getPosts().getIsLink() == Boolean.TRUE) {linkNum += 1;}
+            if (postsList.get(i).getIsText() == Boolean.TRUE) {textNum += 1;}
+            if (postsList.get(i).getIsImg() == Boolean.TRUE) {imgNum += 1;}
+            if (postsList.get(i).getIsLink() == Boolean.TRUE) {linkNum += 1;}
         }
 
         return numres(textNum, imgNum, linkNum, userInfo.getUserId());

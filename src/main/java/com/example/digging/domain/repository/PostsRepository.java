@@ -11,5 +11,12 @@ import java.util.Optional;
 @Repository
 public interface PostsRepository extends JpaRepository<Posts, Integer> {
 
-    List<Posts> findTop10ByUpdatedAt();
+    // List<Posts> findTop10ByUpdatedAt();
+
+    Optional<Posts> findByUser_UserIdAndPostId(Integer userId, Integer postid);
+
+    List<Posts> findAllByUser_UserId(Integer userId);
+
+    Optional<Posts> findById(Integer postid);
+
 }

@@ -1,3 +1,4 @@
+/*
 package com.example.digging.controller.postsapi;
 
 import com.example.digging.domain.network.Header;
@@ -53,3 +54,4 @@ public class PostLinkApiController {
     }
 
 }
+*/

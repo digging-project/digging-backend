@@ -45,17 +45,12 @@ public class SearchLogicService {
     @Autowired
     private PostLinkRepository postLinkRepository;
 
-    @Autowired
-    private UserHasPostsRepository userHasPostsRepository;
-
-
-
-    public SearchHeader<ArrayList<RecentDiggingResponse>> searchByKeyword(String keyword, Integer nowpage) {
+ /*   public SearchHeader<ArrayList<RecentDiggingResponse>> searchByKeyword(String keyword, Integer nowpage) {
 
         User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
 
-        List<UserHasPosts> userHasPostsList = userHasPostsRepository.findAllByUser_UserId(userInfo.getUserId());
+        List<Posts> userHasPostsList = postsRepository.findAllByUser_UserId(userInfo.getUserId());
         int userHasPostsNum = userHasPostsList.size();
 
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -491,6 +486,6 @@ public class SearchLogicService {
         }
         return result;
     }
-
+*/
 
 }

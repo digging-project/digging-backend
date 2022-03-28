@@ -16,6 +16,7 @@ import com.example.digging.domain.network.response.TotalTagResponse;
 import com.example.digging.service.UserApiLogicService;
 import com.example.digging.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,8 +106,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete_post")
-    public PostsResponse deletePost(@RequestParam(name = "postid") Integer postid) {
-        log.info("delete id : {}", postid);
+    public ResponseEntity deletePost(@RequestParam(name = "postid") Integer postid) {
         return userService.deletePost(postid);
     }
 

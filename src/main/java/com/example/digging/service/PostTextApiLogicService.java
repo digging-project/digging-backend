@@ -31,9 +31,6 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
     private PostsRepository postsRepository;
 
     @Autowired
-    private UserHasPostsRepository userHasPostsRepository;
-
-    @Autowired
     private PostTextRepository postTextRepository;
 
     @Autowired
@@ -55,6 +52,7 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
         ArrayList<String> newTagList = new ArrayList<String>();
 
         Posts posts = Posts.builder()
+                .user(userInfo)
                 .isText(Boolean.TRUE)
                 .isImg(Boolean.FALSE)
                 .isLink(Boolean.FALSE)
@@ -62,6 +60,7 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
+
         Posts newPosts = postsRepository.save(posts);
 
         for (int i=0; i<tags.length; i++) {
@@ -89,12 +88,6 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
                 postTagRepository.save(postTag);
             }
         }
-
-        UserHasPosts userHasPosts = UserHasPosts.builder()
-                .user(userRepository.getOne(userInfo.getUserId()))
-                .posts(newPosts)
-                .build();
-        userHasPostsRepository.save(userHasPosts);
 
         PostText postText = PostText.builder()
                 .posts(newPosts)
@@ -128,7 +121,7 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
         User userInfo = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUid)
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
 
-        Optional<UserHasPosts> optional = userHasPostsRepository.findByUser_UserIdAndPostsPostId(userInfo.getUserId(), postid);
+        Optional<Posts> optional = postsRepository.findByUser_UserIdAndPostId(userInfo.getUserId(), postid);
         ArrayList<String> tagList = new ArrayList<String>();
 
         return optional
@@ -162,15 +155,15 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
 
         Optional<User> optional = userRepository.findById(userInfo.getUserId());
-        List<UserHasPosts> userHasPosts = userHasPostsRepository.findAllByUser_UserId(userInfo.getUserId());
-        int userHasPostsNum = userHasPosts.size();
+        List<Posts> posts = postsRepository.findAllByUser_UserId(userInfo.getUserId());
+        int userHasPostsNum = posts.size();
 
         ArrayList<PostText> postTexts = new ArrayList<PostText>();
         ArrayList<ArrayList> tags = new ArrayList();
         for(int i =0; i<userHasPostsNum; i++){
-            if(userHasPosts.get(i).getPosts().getIsText() == Boolean.TRUE) {
-                postTexts.add(postTextRepository.findByPostsPostId(userHasPosts.get(i).getPosts().getPostId()));
-                List<PostTag> nowTags = postTagRepository.findAllByPostsPostId(userHasPosts.get(i).getPosts().getPostId());
+            if(posts.get(i).getIsText() == Boolean.TRUE) {
+                postTexts.add(postTextRepository.findByPostsPostId(posts.get(i).getPostId()));
+                List<PostTag> nowTags = postTagRepository.findAllByPostsPostId(posts.get(i).getPostId());
                 int nowTagsSize = nowTags.size();
                 ArrayList<String> tagStr = new ArrayList<String>();
                 for(int j=0;j<nowTagsSize;j++){
@@ -194,17 +187,17 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
                 .orElseThrow(() -> new RuntimeException("token 오류 입니다. 사용자를 찾을 수 없습니다."));
 
         Optional<User> optional = userRepository.findById(userInfo.getUserId());
-        List<UserHasPosts> userHasPosts = userHasPostsRepository.findAllByUser_UserId(userInfo.getUserId());
-        int userHasPostsNum = userHasPosts.size();
+        List<Posts> posts = postsRepository.findAllByUser_UserId(userInfo.getUserId());
+        int userHasPostsNum = posts.size();
 
         ArrayList<PostText> postTexts = new ArrayList<PostText>();
         ArrayList<ArrayList> tags = new ArrayList();
 
         for(int i=0; i<userHasPostsNum; i++){
-            if((userHasPosts.get(i).getPosts().getIsText() == Boolean.TRUE)
-                    && (userHasPosts.get(i).getPosts().getIsLike() == Boolean.TRUE)) {
-                postTexts.add(postTextRepository.findByPostsPostId(userHasPosts.get(i).getPosts().getPostId()));
-                List<PostTag> nowTags = postTagRepository.findAllByPostsPostId(userHasPosts.get(i).getPosts().getPostId());
+            if((posts.get(i).getIsText() == Boolean.TRUE)
+                    && (posts.get(i).getIsLike() == Boolean.TRUE)) {
+                postTexts.add(postTextRepository.findByPostsPostId(posts.get(i).getPostId()));
+                List<PostTag> nowTags = postTagRepository.findAllByPostsPostId(posts.get(i).getPostId());
                 int nowTagsSize = nowTags.size();
                 ArrayList<String> tagStr = new ArrayList<String>();
                 for(int j=0;j<nowTagsSize;j++){
