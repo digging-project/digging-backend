@@ -60,9 +60,7 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
                 .isLink(Boolean.FALSE)
                 .isLike(Boolean.FALSE)
                 .createdAt(LocalDateTime.now())
-                .createdBy(userInfo.getUsername())
                 .updatedAt(LocalDateTime.now())
-                .updatedBy(userInfo.getUsername())
                 .build();
         Posts newPosts = postsRepository.save(posts);
 
@@ -102,10 +100,6 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
                 .posts(newPosts)
                 .title(body.getTitle())
                 .content(body.getContent())
-                .createdAt(LocalDateTime.now())
-                .createdBy(userInfo.getUsername())
-                .updatedAt(LocalDateTime.now())
-                .updatedBy(userInfo.getUsername())
                 .build();
 
         PostText newPostText = postTextRepository.save(postText);
@@ -233,7 +227,6 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
         PostTextApiResponse postTextApiResponse = PostTextApiResponse.builder()
                 .resultCode("Success")
                 .type("text")
-                .userName(postText.getCreatedBy())
                 .postId(postText.getPosts().getPostId())
                 .textId(postText.getTextId())
                 .title(postText.getTitle())
@@ -259,9 +252,7 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
                     .title(postText.get(i).getTitle())
                     .content(postText.get(i).getContent())
                     .createdAt(postText.get(i).getPosts().getCreatedAt())
-                    .createdBy(postText.get(i).getCreatedBy())
                     .updatedAt(postText.get(i).getPosts().getUpdatedAt())
-                    .updatedBy(postText.get(i).getUpdatedBy())
                     .isLike(postText.get(i).getPosts().getIsLike())
                     .tags(tags.get(i))
                     .build();
@@ -286,9 +277,7 @@ public class PostTextApiLogicService implements CrudInterface<PostTextApiRequest
                 .title(postText.getTitle())
                 .content(postText.getContent())
                 .createdAt(postText.getPosts().getCreatedAt())
-                .createdBy(postText.getCreatedBy())
                 .updatedAt(postText.getPosts().getUpdatedAt())
-                .updatedBy(postText.getUpdatedBy())
                 .isLike(postText.getPosts().getIsLike())
                 .tags(tags)
                 .build();

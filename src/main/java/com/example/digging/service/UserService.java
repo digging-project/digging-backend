@@ -399,20 +399,7 @@ public class UserService {
                     posts.setIsLike(!posts.getIsLike())
                             .setUpdatedAt(LocalDateTime.now())
                     ;
-                    if(posts.getIsText()==Boolean.TRUE){
-                        PostText postText = postTextRepository.findByPostsPostId(opt.getPosts().getPostId());
-                        postTextRepository.save(postText.setUpdatedAt(LocalDateTime.now()));
-                    }
 
-                    if(posts.getIsLink()==Boolean.TRUE){
-                        PostLink postLink = postLinkRepository.findByPostsPostId(opt.getPosts().getPostId());
-                        postLinkRepository.save(postLink.setUpdatedAt(LocalDateTime.now()));
-                    }
-
-                    if(posts.getIsImg()==Boolean.TRUE){
-                        PostImg postImg = postImgRepository.findByPostsPostId(opt.getPosts().getPostId());
-                        postImgRepository.save(postImg.setUpdatedAt(LocalDateTime.now()));
-                    }
                     return posts;
                 })
                 .map(posts -> postsRepository.save(posts))
@@ -469,9 +456,7 @@ public class UserService {
                 .isLink(posts.getIsLink())
                 .isLike(posts.getIsLike())
                 .createdAt(posts.getCreatedAt())
-                .createdBy(posts.getCreatedBy())
                 .updatedAt(posts.getUpdatedAt())
-                .updatedBy(posts.getUpdatedBy())
                 .build();
         String typeStr = null;
         if (postsResponse.getIsText() == Boolean.TRUE) {
