@@ -21,10 +21,6 @@ public class PostText {
 
     private String title;
     private String content;
-    private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime updatedAt;
-    private String updatedBy;
 
     @ManyToOne
 //    @JoinColumn(name = "post_id")
