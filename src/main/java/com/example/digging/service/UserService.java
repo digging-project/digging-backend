@@ -87,7 +87,6 @@ public class UserService {
                 .authorityName("ROLE_USER")
                 .build();
 
-
         User user = User.builder()
                 .username("이름없음")
                 .email(email)
@@ -97,7 +96,6 @@ public class UserService {
                 .updatedAt(LocalDateTime.now())
                 .uid(uid)
                 .authorities(Collections.singleton(authority))
-                .activated(true)
                 .build();
 
         userRepository.save(user);
@@ -144,28 +142,33 @@ public class UserService {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(uid, pwd);
 
-        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
-        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        try {
+            // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+            //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            // 3. 인증 정보를 기반으로 JWT 토큰 생성
+            TokenDto jwt = tokenProvider.createToken(authentication);
 
-        // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto jwt = tokenProvider.createToken(authentication);
+            Integer userId = userRepository.findByUid(authentication.getName()).get().getUserId();
 
-        System.out.println(authentication);
-        Integer userId = userRepository.findByUid(authentication.getName()).get().getUserId();
+            // 4. RefreshToken 저장
+            RefreshToken savetoken = RefreshToken.builder()
+                    .token(jwt.getRefreshToken())
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(jwt.getAccessTokenExpiresIn())
+                    .userId(userId)
+                    .build();
 
-         // 4. RefreshToken 저장
-        RefreshToken savetoken = RefreshToken.builder()
-                .token(jwt.getRefreshToken())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(jwt.getAccessTokenExpiresIn())
-                .userId(userId)
-                .build();
+            refreshTokenRepository.save(savetoken);
 
-        refreshTokenRepository.save(savetoken);
+            // 5. 토큰 발급
+            return ResponseEntity.ok(jwt);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("사용자가 없습니다", "404"));
+        }
 
-        // 5. 토큰 발급
-        return ResponseEntity.ok(jwt);
+
     }
 
     @Transactional
@@ -255,7 +258,6 @@ public class UserService {
                             .provider(user.getProvider())
                             .createdAt(user.getCreatedAt())
                             .updatedAt(user.getUpdatedAt())
-                            .activated(user.getActivated())
                             .refreshTokenCreatedAt(refreshToken.getCreatedAt())
                             .refreshTokenUpdatedAt(refreshToken.getUpdatedAt())
                             .build();
@@ -306,7 +308,6 @@ public class UserService {
                             .provider(user.getProvider())
                             .createdAt(user.getCreatedAt())
                             .updatedAt(user.getUpdatedAt())
-                            .activated(user.getActivated())
                             .refreshTokenCreatedAt(refreshTokenRepository.findByUserId(user.getUserId()).get().getCreatedAt())
                             .refreshTokenUpdatedAt(refreshTokenRepository.findByUserId(user.getUserId()).get().getUpdatedAt())
                             .build();

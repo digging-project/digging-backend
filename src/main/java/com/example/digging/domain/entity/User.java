@@ -28,8 +28,6 @@ public class User {
     //고유식별자
     private String uid;
 
-    private Boolean activated;
-
     private String username;
     private String email;
     private String password;
@@ -52,10 +50,6 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
-
-    public boolean isActivated() {
-        return activated;
-    }
 
 
 }
