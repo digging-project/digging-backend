@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/postimg")
+@RequestMapping("/api/postimg")
 @Api
 public class PostImgApiController implements CrudInterface<PostImgApiRequest, PostImgApiResponse> {
 

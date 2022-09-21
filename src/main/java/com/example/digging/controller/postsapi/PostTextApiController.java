@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 @Slf4j
 @RestController
-@RequestMapping("/posttext")
+@RequestMapping("/api/posttext")
 @Api
 public class PostTextApiController implements CrudInterface<PostTextApiRequest, PostTextApiResponse> {
 

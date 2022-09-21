@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 @Slf4j
 @RestController
-@RequestMapping("/calendar")
+@RequestMapping("/api/calendar")
 public class CalendarController {
 
     @Autowired

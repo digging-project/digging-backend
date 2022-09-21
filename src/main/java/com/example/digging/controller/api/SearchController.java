@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 @Slf4j
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/api/search")
 public class SearchController {
 
     @Autowired

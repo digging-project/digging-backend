@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 @Slf4j
 @RestController
-@RequestMapping("/postlink")
+@RequestMapping("/api/postlink")
 @Api
 public class PostLinkApiController {
     @Autowired

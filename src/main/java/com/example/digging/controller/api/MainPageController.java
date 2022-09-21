@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 @Slf4j
 @RestController
-@RequestMapping("")
+@RequestMapping("/api")
 @Api
 public class MainPageController {
     @Autowired
