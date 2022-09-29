@@ -69,43 +69,46 @@ public class CalendarLogicService {
         Integer idnum = 1;
         String firstday = getDateDayName(dateform);
         int plusnum;
+
+        Integer ym = Integer.parseInt(year + month + "00");
+
         switch(firstday) {
             case "monday":
-                calendarList.add(CalendarResponse.builder().date(null).id(idnum).build());
+                calendarList.add(CalendarResponse.builder().date(null).id(ym + idnum).build());
                 idnum += 1;
                 plusnum = 1;
                 break;
             case "tuesday":
                 for(int i=1; i<3;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 2;
                 plusnum = 2;
                 break;
             case "wednesday":
                 for(int i =1; i<4;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 3;
                 plusnum = 3;
                 break;
             case "thursday":
                 for(int i =1; i<5;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 4;
                 plusnum = 4;
                 break;
             case "friday":
                 for(int i =1; i<6;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 5;
                 plusnum = 5;
                 break;
             case "saturday":
                 for(int i =1; i<7;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 6;
                 plusnum = 6;
@@ -127,7 +130,7 @@ public class CalendarLogicService {
                     .date(LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), i))
                     .resultCode("Success")
                     .day(getDateDayName(form))
-                    .id(idnum)
+                    .id(ym + idnum)
                     .is_img(false)
                     .is_link(false)
                     .is_text(false)
@@ -208,44 +211,47 @@ public class CalendarLogicService {
         String dateform = year+"-"+month+"-01";
         Integer idnum = 1;
         String firstday = getDateDayName(dateform);
+
+        Integer ym = Integer.parseInt(year + month + "00");
+
         int plusnum;
         switch(firstday) {
             case "monday":
-                calendarList.add(CalendarResponse.builder().date(null).id(idnum).build());
+                calendarList.add(CalendarResponse.builder().date(null).id(ym + idnum).build());
                 idnum += 1;
                 plusnum = 1;
                 break;
             case "tuesday":
                 for(int i=1; i<3;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 2;
                 plusnum = 2;
                 break;
             case "wednesday":
                 for(int i =1; i<4;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 3;
                 plusnum = 3;
                 break;
             case "thursday":
                 for(int i =1; i<5;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 4;
                 plusnum = 4;
                 break;
             case "friday":
                 for(int i =1; i<6;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 5;
                 plusnum = 5;
                 break;
             case "saturday":
                 for(int i =1; i<7;i++){
-                    calendarList.add(CalendarResponse.builder().date(null).id(i).build());
+                    calendarList.add(CalendarResponse.builder().date(null).id(ym + i).build());
                 }
                 idnum += 6;
                 plusnum = 6;
@@ -267,7 +273,7 @@ public class CalendarLogicService {
                     .date(LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), i))
                     .resultCode("Success")
                     .day(getDateDayName(form))
-                    .id(idnum)
+                    .id(ym + idnum)
                     .is_img(false)
                     .is_link(false)
                     .is_text(false)

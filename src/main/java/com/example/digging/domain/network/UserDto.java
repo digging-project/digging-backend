@@ -14,36 +14,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UserDto {
 
-
-    private Integer userId;
-
-    //고유식별자
-    private String uid;
-
-
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = 3, max = 6)
     private String username;
     private String email;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull
-    @Size(min = 3, max = 100)
-    private String password;
 
-    private String provider;
+    public static class Interest {
+        public Integer interestId;
+        public String interestTitle;
+    }
 
-    private String interest;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    private Boolean activated;
-
-    private LocalDateTime refreshTokenCreatedAt;
-
-    private LocalDateTime refreshTokenUpdatedAt;
-
+    public Interest interest;
 
 }

@@ -150,7 +150,7 @@ public class UserService {
         System.out.println(authentication);
         Integer userId = userRepository.findByUid(authentication.getName()).get().getUserId();
 
-         // 4. RefreshToken 저장
+        // 4. RefreshToken 저장
         RefreshToken savetoken = RefreshToken.builder()
                 .token(jwt.getRefreshToken())
                 .createdAt(LocalDateTime.now())
@@ -238,23 +238,39 @@ public class UserService {
         RefreshToken refreshToken = refreshTokenRepository.findByUserId(userInfo.get().getUserId())
                 .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
-        return userInfo
-                .map(user -> {
-                    UserDto userDto = UserDto.builder()
-                            .email(user.getEmail())
-                            .interest(user.getInterest())
-                            .userId(user.getUserId())
-                            .uid(user.getUid())
-                            .username(user.getUsername())
-                            .provider(user.getProvider())
-                            .createdAt(user.getCreatedAt())
-                            .updatedAt(user.getUpdatedAt())
-                            .refreshTokenCreatedAt(refreshToken.getCreatedAt())
-                            .refreshTokenUpdatedAt(refreshToken.getUpdatedAt())
-                            .build();
-                    return userDto;
-                })
-                .orElseThrow();
+
+        String userInterest = userInfo.get().getInterest();
+
+
+        UserDto userDto = UserDto.builder()
+                .email(userInfo.get().getEmail())
+                .username(userInfo.get().getUsername())
+                .build();
+
+        UserDto.Interest interestDto = new UserDto.Interest();
+
+        if (userInterest.equals("개발")) {
+            interestDto.interestId = 1;
+            interestDto.interestTitle = "개발";
+
+        } else if (userInterest.equals("디자인")) {
+            interestDto.interestId = 2;
+            interestDto.interestTitle = "디자인";
+        } else if (userInterest.equals("마케팅")) {
+            interestDto.interestId = 3;
+            interestDto.interestTitle = "마케팅";
+        } else if (userInterest.equals("기획")) {
+            interestDto.interestId = 4;
+            interestDto.interestTitle = "기획";
+        } else {
+            interestDto.interestId = 5;
+            interestDto.interestTitle = userInterest;
+        }
+
+
+        userDto.setInterest(interestDto);
+        return userDto;
+
     }
 
     @Transactional
@@ -280,27 +296,18 @@ public class UserService {
         }
 
         return userInfo.map(user -> {
-            user
-                    .setUpdatedAt(LocalDateTime.now())
-                    .setUsername(body.getUsername())
-                    .setEmail(body.getEmail())
-                    .setInterest(body.getInterest())
-            ;
-            return user;
-        })
+                    user
+                            .setUpdatedAt(LocalDateTime.now())
+                            .setUsername(body.getUsername())
+                            .setEmail(body.getEmail())
+                            .setInterest(body.getInterest())
+                    ;
+                    return user;
+                })
                 .map(user -> userRepository.save(user))
                 .map(user -> {
                     UserDto userDto = UserDto.builder()
                             .email(user.getEmail())
-                            .interest(user.getInterest())
-                            .userId(user.getUserId())
-                            .uid(user.getUid())
-                            .username(user.getUsername())
-                            .provider(user.getProvider())
-                            .createdAt(user.getCreatedAt())
-                            .updatedAt(user.getUpdatedAt())
-                            .refreshTokenCreatedAt(refreshTokenRepository.findByUserId(user.getUserId()).get().getCreatedAt())
-                            .refreshTokenUpdatedAt(refreshTokenRepository.findByUserId(user.getUserId()).get().getUpdatedAt())
                             .build();
                     return ResponseEntity.ok(userDto);
 
@@ -367,10 +374,12 @@ public class UserService {
 
         return optional
                 .map(opt -> {
-                    opt.setIsLike(!opt.getIsLike())
-                            .setUpdatedAt(LocalDateTime.now());
-                    postsRepository.save(opt.setUpdatedAt(LocalDateTime.now()));
-                    return opt;
+                    Posts posts = opt.getPosts();
+                    posts.setIsLike(!posts.getIsLike())
+                            .setUpdatedAt(LocalDateTime.now())
+                    ;
+
+                    return posts;
                 })
                 .map(updatePost -> postres(updatePost))
                 .orElseGet(

@@ -36,7 +36,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private org.springframework.security.core.userdetails.User createUser(User user) {
-
         System.out.println(user.getUsername());
         List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
