@@ -97,6 +97,7 @@ public class UserService {
                 .updatedAt(LocalDateTime.now())
                 .uid(uid)
                 .authorities(Collections.singleton(authority))
+                .interest("")
                 .build();
 
         userRepository.save(user);
@@ -298,11 +299,9 @@ public class UserService {
                     .body(new UpdateUserErrorResponse(Boolean.FALSE, Boolean.TRUE, "올바른 형식의 이메일을 입력해주세요"));
         }
 
-        String userInterest = body.getInterest();
+        String userInterest = body.getInterestTitle();
 
         UserDto userDto = UserDto.builder()
-                .email(userInfo.get().getEmail())
-                .username(userInfo.get().getUsername())
                 .build();
 
         UserDto.Interest interestDto = new UserDto.Interest();
@@ -310,7 +309,6 @@ public class UserService {
         if (userInterest.equals("개발")) {
             interestDto.interestId = 1;
             interestDto.interestTitle = "개발";
-
         } else if (userInterest.equals("디자인")) {
             interestDto.interestId = 2;
             interestDto.interestTitle = "디자인";
@@ -333,12 +331,14 @@ public class UserService {
                             .setUpdatedAt(LocalDateTime.now())
                             .setUsername(body.getUsername())
                             .setEmail(body.getEmail())
-                            .setInterest(body.getInterest())
+                            .setInterest(body.getInterestTitle())
                     ;
                     return user;
                 })
                 .map(user -> userRepository.save(user))
                 .map(user -> {
+                    userDto.setUsername(user.getUsername());
+                    userDto.setEmail(user.getEmail());
                     return ResponseEntity.ok(userDto);
 
                 })
