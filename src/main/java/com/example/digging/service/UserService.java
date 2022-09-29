@@ -242,24 +242,38 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
 
+        String userInterest = userInfo.get().getInterest();
 
-        return userInfo
-                .map(user -> {
-                    UserDto userDto = UserDto.builder()
-                            .email(user.getEmail())
-                            .interest(user.getInterest())
-                            .userId(user.getUserId())
-                            .uid(user.getUid())
-                            .username(user.getUsername())
-                            .provider(user.getProvider())
-                            .createdAt(user.getCreatedAt())
-                            .updatedAt(user.getUpdatedAt())
-                            .refreshTokenCreatedAt(refreshToken.getCreatedAt())
-                            .refreshTokenUpdatedAt(refreshToken.getUpdatedAt())
-                            .build();
-                    return userDto;
-                })
-                .orElseThrow();
+
+        UserDto userDto = UserDto.builder()
+                .email(userInfo.get().getEmail())
+                .username(userInfo.get().getUsername())
+                .build();
+
+        UserDto.Interest interestDto = new UserDto.Interest();
+
+        if (userInterest.equals("개발")) {
+            interestDto.interestId = 1;
+            interestDto.interestTitle = "개발";
+
+        } else if (userInterest.equals("디자인")) {
+            interestDto.interestId = 2;
+            interestDto.interestTitle = "디자인";
+        } else if (userInterest.equals("마케팅")) {
+            interestDto.interestId = 3;
+            interestDto.interestTitle = "마케팅";
+        } else if (userInterest.equals("기획")) {
+            interestDto.interestId = 4;
+            interestDto.interestTitle = "기획";
+        } else {
+            interestDto.interestId = 5;
+            interestDto.interestTitle = userInterest;
+        }
+
+
+        userDto.setInterest(interestDto);
+        return userDto;
+
     }
 
     @Transactional
@@ -297,15 +311,6 @@ public class UserService {
                 .map(user -> {
                     UserDto userDto = UserDto.builder()
                             .email(user.getEmail())
-                            .interest(user.getInterest())
-                            .userId(user.getUserId())
-                            .uid(user.getUid())
-                            .username(user.getUsername())
-                            .provider(user.getProvider())
-                            .createdAt(user.getCreatedAt())
-                            .updatedAt(user.getUpdatedAt())
-                            .refreshTokenCreatedAt(refreshTokenRepository.findByUserId(user.getUserId()).get().getCreatedAt())
-                            .refreshTokenUpdatedAt(refreshTokenRepository.findByUserId(user.getUserId()).get().getUpdatedAt())
                             .build();
                     return ResponseEntity.ok(userDto);
 
