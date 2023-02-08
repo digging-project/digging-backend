@@ -50,19 +50,7 @@ We've improved the paint points we've felt in existing services so that you can 
 - S3
 
 
-
-### Project Structure
-
-
-
-### ERD
-
-![diggingERD](https://user-images.githubusercontent.com/65646971/134818766-256f1472-3f11-4a50-aa09-ec0ff50d9bfb.png)
-
 ## *Addition Commentary*
-### Issues
-
-### Plans
 
 ### Team DDD-5.Oreo
 |Member|Role|
